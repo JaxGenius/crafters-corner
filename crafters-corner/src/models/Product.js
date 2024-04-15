@@ -1,26 +1,38 @@
+// models/Product.js
 const mongoose = require('mongoose');
+const Shopfront = require('./Shopfront');
 const Schema = mongoose.Schema;
 
 let Product = new Schema({
-    productID: {
-        type: String
+    shopfrontID: {
+        type: Schema.Types.ObjectId,
+        ref: Shopfront
     },
-    userID: {
-        type: String
+    imgSrc: {
+        type: String,
+        default: "placeholder.jpg"
     },
-    Name: {
-        type: String
+    name: {
+        type: String,
+        required: true
     },
     description: {
-        type: String
+        type: String,
+        required: true
     },
     price: {
-        type: Number
+        type: Number,
+        required: true
     },
     category: {
-        type: String
+        type: String,
+        required: true
+    },
+    tags: {
+        type: Array,
+        default: []
     }
-},{
+}, {
     collection: 'products'
 });
 

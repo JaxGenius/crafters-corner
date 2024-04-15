@@ -4,26 +4,18 @@ const Schema = mongoose.Schema;
 
 let User = new Schema({
     username: {
-        type: String
+        type: String,
+        required: true
     },
     password: {
-        type: String
-    },
-    Products: {
-        type: Array
-    },
-    Shopfront: {
         type: String,
-        default: "default"
+        required: true
     },
     email: {
-        type: String
-    },
-    Cart: {
         type: String,
-        default: "default"
-    },
-},{
+        required: true
+    }
+}, {
     collection: 'users'
 });
 
