@@ -24,7 +24,6 @@ let Shopfront = new Schema({
         default: []
     },
     description: {
-
         type: String,
         default: 'Hello! Welcome to my shopfront!'
     }

@@ -61,4 +61,11 @@ router.post('/products/update/price/:id', (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// Method to change sold status by product id
+router.post('/products/update/sold/:id', (req, res) => {
+    Product.findByIdAndUpdate(req.params.id, { sold: req.body.sold })
+        .then(() => res.json('Product sold status updated!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 module.exports = router;

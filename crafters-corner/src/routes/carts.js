@@ -23,4 +23,16 @@ router.post('/cart/update/:id', (req, res) => {
         .catch(err => res.status(400).json('Error: could not find cart ' + err));
 });
 
+// Method to checkout a cart by owner id
+router.post('/cart/checkout/:id', (req, res) => {
+    Cart.findOne({ owner: req.params.id })
+        .then(cart => {
+            cart.products = [];
+            cart.save()
+                .then(updatedCart => res.json(updatedCart))
+                .catch(err => res.status(400).json('Error: could not checkout cart ' + err));
+        })
+        .catch(err => res.status(400).json('Error: could not find cart ' + err));
+});
+
 module.exports = router;

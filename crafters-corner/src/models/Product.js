@@ -31,6 +31,10 @@ let Product = new Schema({
     tags: {
         type: Array,
         default: []
+    },
+    sold: {
+        type: Boolean,
+        default: false
     }
 }, {
     collection: 'products'
