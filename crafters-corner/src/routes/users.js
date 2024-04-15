@@ -54,7 +54,9 @@ router.get('/users/:id', (req, res) => {
 });
 
 // Method to log in a user
+
 router.post('/login', (req, res) => {
+    console.log('Login request received');
     const { username, password } = req.body;
 
     // Find user by username
@@ -67,8 +69,7 @@ router.post('/login', (req, res) => {
             // Check password
             if (password === user.password) {
                 // User matched
-                // In a real-world application, you would typically create a JWT here and send it to the user
-                res.json({ msg: 'Success' });
+                res.json({ id: user._id }); // Return ObjectId of the user
             } else {
                 return res.status(400).json({ error: 'Invalid username or password' });
             }
