@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SearchComponent from '../components/SearchComponent';
 
 function Homepage({ isLoggedIn, username }) {
   return (
@@ -20,7 +21,9 @@ function Homepage({ isLoggedIn, username }) {
           )}
         </nav>
       </header>
-
+      <div id="search">
+        <SearchComponent />
+      </div>  
       {/* Rest of the component... */}
     </div>
   );

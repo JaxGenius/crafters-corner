@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import setIsLoggedIn from '../pages/LoginPage';
 
 function LoginComponent() {
   const [username, setUsername] = useState('');
@@ -19,6 +20,8 @@ function LoginComponent() {
       const data = await response.json();
       console.log(data);
       // Handle successful login here (e.g. redirect, show message, etc.)
+      setIsLoggedIn(true);
+      window.location.href = '/'; // Redirect to homepage
     } else {
       console.log('Login failed');
       // Handle failed login here (e.g. show error message)
