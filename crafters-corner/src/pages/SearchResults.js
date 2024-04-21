@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ProductComponent from '../components/ProductComponent';
 
 function SearchResults({ results }) {
   return (

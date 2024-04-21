@@ -6,13 +6,14 @@ import LoginPage from './pages/LoginPage'; // adjust the path as needed
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
 
   return (
     <Router>
       <div className="App">
         <Routes>
           <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<Homepage username={username} />} />
         </Routes>
       </div>
     </Router>
