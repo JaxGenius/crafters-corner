@@ -1,11 +1,12 @@
 import React from 'react';
 import LoginComponent from '../components/LoginComponent';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function LoginPage() {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f5f5f5' }}>
-      <div style={{ width: '300px', padding: '20px', borderRadius: '5px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)', backgroundColor: '#fff' }}>
-        <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Login Page</h1>
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div className="p-4 rounded shadow-sm bg-white" style={{ width: '300px' }}>
+        <h1 className="text-center mb-4">Login Page</h1>
         <LoginComponent />
       </div>
     </div>

@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function LoginComponent() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { setIsLoggedIn, setDisplayName } = useContext(AppContext);
-  const { isLoggedIn } = useContext(AppContext);
+  const { setIsLoggedIn, setDisplayName, setUserID } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -22,34 +22,32 @@ function LoginComponent() {
     });
 
     if (response.ok) {
-      //const data = await response.json();
-      // Handle successful login here (e.g. redirect, show message, etc.)
-      console.log('isLoggedin first', {isLoggedIn});
-      setIsLoggedIn(true); // Set the isLoggedIn state to true
-      console.log('isLoggedin second', {isLoggedIn});
-      setDisplayName(username);  // Set the displayName state to the username
-      alert('Login successful'); // Display a browser alert message
-      navigate('/'); // Navigate back to homepage
+      // Handle successful login here
+      const data = await response.json();
+      setIsLoggedIn(true);
+      setDisplayName(username);
+      setUserID(data.id);
+      alert('Login successful');
+      navigate('/');
     } else {
+      // Handle failed login here
       console.log('Login failed');
-      alert('Login failed'); // Display a browser alert message
-      // Handle failed login here (e.g. show error message)
+      alert('Login failed');
     }
   };
 
   return (
     <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+      <form className="form-group" onSubmit={handleSubmit}>
+        <label className="form-label mt-3">
           Username:
-          <input type="text" value={username} onChange={e => setUsername(e.target.value)} required />
+          <input type="text" className="form-control" value={username} onChange={e => setUsername(e.target.value)} required />
         </label>
-        <label>
+        <label className="form-label mt-3">
           Password:
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+          <input type="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} required />
         </label>
-        <button type="submit">Login</button>
+        <button type="submit" className="btn btn-primary mt-3">Login</button>
       </form>
     </div>
   );
