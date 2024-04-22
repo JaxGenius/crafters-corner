@@ -8,6 +8,7 @@ const Product = require('../models/Product');
 router.post('/products/create', (req, res) => {
     const newProduct = new Product({
         shopfrontID: req.body.shopfrontID,
+        owner: req.body.owner,
         imgSrc: req.body.imgSrc,
         name: req.body.name,
         description: req.body.description,

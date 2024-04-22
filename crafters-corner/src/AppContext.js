@@ -6,10 +6,9 @@ export const AppProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [userID, setUserID] = useState('');
-  const [test, setTest] = useState('test');
 
   return (
-    <AppContext.Provider value={{ isLoggedIn, setIsLoggedIn, displayName, setDisplayName, userID, setUserID, test, setTest }}>
+    <AppContext.Provider value={{ isLoggedIn, setIsLoggedIn, displayName, setDisplayName, userID, setUserID }}>
       {children}
     </AppContext.Provider>
   );

@@ -12,7 +12,7 @@ function Homepage() {
     setIsLoggedIn(false);
     setDisplayName('');
     alert('Logged out');
-    navigate('/login');
+    navigate('/');
   };
 
   return (
@@ -24,6 +24,8 @@ function Homepage() {
             <div>
               <p>Welcome, {displayName}!</p>
               <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+              <button className="btn btn-secondary ml-2">My Shopfront</button>
+              <button className="btn btn-secondary ml-2">My Cart</button>
             </div>
           ) : (
             <div>
