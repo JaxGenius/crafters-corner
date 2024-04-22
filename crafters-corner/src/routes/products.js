@@ -30,6 +30,18 @@ router.get('/products/:id', (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// Method to get products by name
+router.get('/products/name/:name', (req, res) => {
+    Product.find({ name: new RegExp(req.params.name, 'i') })
+        .then(products => {
+            if (products.length === 0) {
+                res.status(404).json('No products found matching ' + req.params.name);
+            } else {
+                res.json(products);
+            }
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
 // SETTERS
 

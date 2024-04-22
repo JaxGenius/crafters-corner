@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginComponent from '../components/LoginComponent'; // adjust the path as needed
+import LoginComponent from '../components/LoginComponent';
 
 function LoginPage() {
   return (

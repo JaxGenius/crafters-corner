@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import setIsLoggedIn from '../pages/LoginPage';
-import { set } from 'mongoose';
+import React, { useState, useContext } from 'react';
+import { AppContext } from '../AppContext';
+import { useNavigate } from 'react-router-dom';
 
 function LoginComponent() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { setIsLoggedIn, setDisplayName } = useContext(AppContext);
+  const { isLoggedIn } = useContext(AppContext);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -18,13 +22,17 @@ function LoginComponent() {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      console.log(data);
+      //const data = await response.json();
       // Handle successful login here (e.g. redirect, show message, etc.)
-      setIsLoggedIn(true);
-      window.location.href = '/'; // Redirect to homepage
+      console.log('isLoggedin first', {isLoggedIn});
+      setIsLoggedIn(true); // Set the isLoggedIn state to true
+      console.log('isLoggedin second', {isLoggedIn});
+      setDisplayName(username);  // Set the displayName state to the username
+      alert('Login successful'); // Display a browser alert message
+      navigate('/'); // Navigate back to homepage
     } else {
       console.log('Login failed');
+      alert('Login failed'); // Display a browser alert message
       // Handle failed login here (e.g. show error message)
     }
   };
