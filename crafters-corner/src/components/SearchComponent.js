@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SearchComponent() {
 
-  const [search, setSearch] = useState('');
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const response = await fetch(`http://localhost:4000/products/${search}`, {
+    const response = await fetch(`http://localhost:4000/search/${query}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -16,10 +18,9 @@ function SearchComponent() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
+      navigate('/results', { state: { results: data } });
     } else {
       console.log('Search failed!');
-      // Handle failed login here (e.g. show error message)
     }
   };
 
@@ -29,7 +30,7 @@ function SearchComponent() {
       <form onSubmit={handleSubmit}>
         <label>
           Search:
-          <input type="text" value={search} onChange={e => setSearch(e.target.value)} required />
+          <input type="text" value={query} onChange={e => setQuery(e.target.value)} required />
         </label>
         <button type="submit">Search</button>
       </form>

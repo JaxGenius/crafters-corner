@@ -38,10 +38,13 @@ function Homepage() {
       <div id="search">
         <SearchComponent />
       </div>
+      <div className="mt-5"></div>
+      <h1>Categories</h1>
+      <div className="mt-5"></div>
       <div className="d-flex justify-content-between">
-        <div className="flex-grow-1 m-2 p-3 border">Category 1</div>
-        <div className="flex-grow-1 m-2 p-3 border">Category 2</div>
-        <div className="flex-grow-1 m-2 p-3 border">Category 3</div>
+        <div className="flex-grow-1 m-2 p-3 border">Furniture</div>
+        <div className="flex-grow-1 m-2 p-3 border">Jewelery</div>
+        <div className="flex-grow-1 m-2 p-3 border">Tools</div>
       </div>
     </div>
   );

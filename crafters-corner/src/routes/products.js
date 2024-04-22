@@ -31,19 +31,6 @@ router.get('/products/:id', (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// Method to get products by name
-router.get('/products/name/:name', (req, res) => {
-    Product.find({ name: new RegExp(req.params.name, 'i') })
-        .then(products => {
-            if (products.length === 0) {
-                res.status(404).json('No products found matching ' + req.params.name);
-            } else {
-                res.json(products);
-            }
-        })
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
 // SETTERS
 
 // Method to update product image by product id
@@ -78,6 +65,13 @@ router.post('/products/update/price/:id', (req, res) => {
 router.post('/products/update/sold/:id', (req, res) => {
     Product.findByIdAndUpdate(req.params.id, { sold: req.body.sold })
         .then(() => res.json('Product sold status updated!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+// Method to update tags by product id
+router.post('/products/update/tags/:id', (req, res) => {
+    Product.findByIdAndUpdate(req.params.id, { tags: req.body.tags })
+        .then(() => res.json('Product tags updated!'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
