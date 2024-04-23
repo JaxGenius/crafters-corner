@@ -5,7 +5,7 @@ import { AppContext } from '../AppContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Homepage() {
-  const { isLoggedIn, displayName, setIsLoggedIn, setDisplayName } = useContext(AppContext);
+  const { isLoggedIn, displayName, userID, setIsLoggedIn, setDisplayName } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -14,6 +14,14 @@ function Homepage() {
     alert('Logged out');
     navigate('/');
   };
+
+  const handleShopfrontClick = () => {
+    navigate(`/shopfront/${userID}`);
+  }
+
+  const handleCartClick = () => {
+    navigate(`/cart/${userID}`);
+  }
 
   return (
     <div className="container">
@@ -24,8 +32,8 @@ function Homepage() {
             <div>
               <p>Welcome, {displayName}!</p>
               <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
-              <button className="btn btn-secondary ml-2">My Shopfront</button>
-              <button className="btn btn-secondary ml-2">My Cart</button>
+              <button className="btn btn-secondary ml-2" onClick={handleShopfrontClick}>My Shopfront</button>
+              <button className="btn btn-secondary ml-2" onClick={handleCartClick}>My Cart</button>
             </div>
           ) : (
             <div>

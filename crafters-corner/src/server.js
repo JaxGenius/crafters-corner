@@ -6,6 +6,7 @@ const userRoutes = require('./routes/users');
 const productRoutes = require('./routes/products');
 const searchRoutes = require('./routes/search');
 const cartRoutes = require('./routes/carts');
+const shopfrontRoutes = require('./routes/shopfronts');
 
 const app = express();
 
@@ -34,3 +35,6 @@ app.use('/', searchRoutes);
 
 // Add the cart routes to the server
 app.use('/', cartRoutes);
+
+// Add the shopfront routes to the server
+app.use('/', shopfrontRoutes);

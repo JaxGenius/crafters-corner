@@ -11,6 +11,9 @@ let Shopfront = new Schema({
         type: Schema.Types.ObjectId,
         ref: User
     },
+    ownerName: {
+        type: String,
+    },
     template: {
         type: String,
         default: 'defaultShopfront.html'

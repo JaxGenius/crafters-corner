@@ -20,9 +20,13 @@ function SearchComponent() {
       const data = await response.json();
       navigate('/results', { state: { results: data } });
     } else {
-      console.log('Search failed!');
+      if (response.status === 404) {
+        alert('No results found!');
+      } else {
+        console.log('Search failed!');
+      }
     }
-  };
+  }
 
   return (
     <div>

@@ -6,6 +6,8 @@ import Homepage from './pages/Homepage';
 import LoginPage from './pages/LoginPage';
 import SearchResults from './pages/SearchResults';
 import { AppProvider } from './AppContext';
+import ShopfrontPage from './pages/ShopfrontPage';
+import CartPage from './pages/CartPage';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/" element={<Homepage />} />
             <Route path="/results" element={<SearchResults />} />
+            <Route path="/shopfront/:userId" element={<ShopfrontPage />} />
+            <Route path="/cart/:userId" element={<CartPage />} />
           </Routes>
         </div>
       </Router>

@@ -3,9 +3,10 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const Shopfront = require('../models/Shopfront');
 
 // Method to create a product
-router.post('/products/create', (req, res) => {
+router.post('/products/create', async (req, res) => {
     const newProduct = new Product({
         shopfrontID: req.body.shopfrontID,
         owner: req.body.owner,
@@ -17,9 +18,15 @@ router.post('/products/create', (req, res) => {
         tags: req.body.tags
     });
 
-    newProduct.save()
-        .then(() => res.json('Product added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+    try {
+        const savedProduct = await newProduct.save();
+        const shopfront = await Shopfront.findById(req.body.shopfrontID);
+        shopfront.products.push(savedProduct._id);
+        await shopfront.save();
+        res.json('Product added!');
+    } catch (err) {
+        res.status(400).json('Error: ' + err);
+    }
 });
 
 // GETTERS
@@ -28,6 +35,13 @@ router.post('/products/create', (req, res) => {
 router.get('/products/:id', (req, res) => {
     Product.findById(req.params.id)
         .then(product => res.json(product))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+// Method to get products by shopfront id
+router.get('/products/shopfront/:id', (req, res) => {
+    Product.find({ shopfrontID: req.params.id })
+        .then(products => res.json(products))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 

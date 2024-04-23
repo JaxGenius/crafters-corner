@@ -19,7 +19,10 @@ router.post('/users/add', (req, res) => {
                     newUser.save()
                         .then(() => {
                             // Create a new shopfront for the user
-                            const newShopfront = new Shopfront({ owner: newUser._id });
+                            const newShopfront = new Shopfront({ 
+                                owner: newUser._id,
+                                ownerName: newUser.username
+                            });
                             return newShopfront.save();
                         })
                         .then(() => {
