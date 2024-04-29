@@ -8,6 +8,8 @@ import SearchResults from './pages/SearchResults';
 import { AppProvider } from './AppContext';
 import ShopfrontPage from './pages/ShopfrontPage';
 import CartPage from './pages/CartPage';
+import ProductPage from './pages/ProductPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="/results" element={<SearchResults />} />
             <Route path="/shopfront/:userId" element={<ShopfrontPage />} />
             <Route path="/cart/:id" element={<CartPage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/register" element={<RegisterPage />} />
           </Routes>
         </div>
       </Router>

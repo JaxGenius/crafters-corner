@@ -14,6 +14,10 @@ let User = new Schema({
     email: {
         type: String,
         required: true
+    },
+    balance: {
+        type: Number,
+        default: 0
     }
 }, {
     collection: 'users'

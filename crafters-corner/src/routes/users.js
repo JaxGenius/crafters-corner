@@ -80,5 +80,24 @@ router.post('/login', (req, res) => {
         .catch(err => res.status(500).json('Error: ' + err));
 });
 
+// Method to update user balance
+router.put('/users/updateBalance/:id', (req, res) => {
+    User.findById(req.params.id)
+        .then(user => {
+            user.balance += Number(req.body.balance);
+
+            user.save()
+                .then(() => res.json('Balance updated successfully.'))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+// Method to get user balance
+router.get('/users/balance/:id', (req, res) => {
+    User.findById(req.params.id)
+        .then(user => res.json(user.balance))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
 module.exports = router;

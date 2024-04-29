@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -33,6 +33,7 @@ function ShopfrontPage() {
 
   return (
     <Container>
+      <Link to="/"><img src="/logo.png" alt="Logo" /></Link>
       <Row>
         <Col>
           <h1>{shopfront.ownerName}'s Shopfront</h1>

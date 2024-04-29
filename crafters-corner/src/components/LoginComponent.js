@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 function LoginComponent() {
   const [username, setUsername] = useState('');

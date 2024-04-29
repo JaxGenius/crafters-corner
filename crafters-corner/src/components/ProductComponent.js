@@ -79,7 +79,7 @@ function ProductComponent({ product }) {
 
   return (
     <Card bg="light" style={{ width: '18rem' }}>
-      <Card.Img variant="top" src={product.imgSrc} alt={product.name} />
+      <Card.Img variant="top" src={"/" + product.imgSrc} alt={product.name} />
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>
