@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 
 // async function to add product to cart
-async function addToCart(userID, productId, isLoggedIn) {
+async function addToCart(userID, productId, isLoggedIn, setInCart) {
   if (!isLoggedIn) {
     alert('You must be logged in to do that.');
     return;
@@ -24,12 +24,58 @@ async function addToCart(userID, productId, isLoggedIn) {
     throw new Error(`HTTP error! status: ${response.status}`);
   } else {
     alert('Product added to cart');
+    setInCart(true); // update inCart status
+  }
+}
+
+// async function to check if product is in cart
+async function checkInCart(userID, productId) {
+  const response = await fetch(`http://localhost:4000/cart/check/${userID}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ product: productId }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.inCart;
+}
+
+// async function to remove product from cart
+async function removeFromCart(userID, productId, setInCart) {
+  const response = await fetch(`http://localhost:4000/cart/remove/${userID}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ product: productId }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  } else {
+    alert('Product removed from cart');
+    setInCart(false); // update inCart status
   }
 }
 
 function ProductComponent({ product }) {
   const navigate = useNavigate();
   const { isLoggedIn, userID } = useContext(AppContext);
+  const [inCart, setInCart] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      checkInCart(userID, product._id)
+        .then(setInCart)
+        .catch(console.error);
+    }
+  }, [isLoggedIn, userID, product._id]);
 
   return (
     <Card bg="light" style={{ width: '18rem' }}>
@@ -39,8 +85,12 @@ function ProductComponent({ product }) {
         <Card.Text>
           Price: {product.price}
         </Card.Text>
-        <Button variant="primary" onClick={() => navigate(`/product/${product._id}`)}>View Product</Button> {/* need to add product page functionality */}
-        <Button variant="secondary" onClick={() => {addToCart(userID, product._id, isLoggedIn)}}>Add to Cart</Button>
+        {inCart ? (
+          <Button variant="danger" onClick={() => removeFromCart(userID, product._id, setInCart)}>Remove from Cart</Button>
+        ) : (
+          <Button variant="primary" onClick={() => addToCart(userID, product._id, isLoggedIn, setInCart)}>Add to Cart</Button>
+        )}
+        <Button variant="secondary" onClick={() => navigate(`/product/${product._id}`)}>View Product</Button>
       </Card.Body>
     </Card>
   );
@@ -48,16 +98,10 @@ function ProductComponent({ product }) {
 
 ProductComponent.propTypes = {
   product: PropTypes.shape({
-    sold: PropTypes.bool.isRequired,
-    owner: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
-    imgSrc: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    imgSrc: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    category: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    __v: PropTypes.number.isRequired,
   }).isRequired,
 };
 
