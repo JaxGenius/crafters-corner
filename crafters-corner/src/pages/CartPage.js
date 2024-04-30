@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { OverlayTrigger, Tooltip, Button, Col, Row, Container } from 'react-bootstrap';
 import ProductComponent from '../components/ProductComponent';
 import { AppContext } from '../AppContext';
 
@@ -17,17 +15,28 @@ async function getProductById(productId) {
   return fetch(`http://localhost:4000/products/${productId}`).then(response => response.json());
 }
 
+async function checkoutCart(userId, setCart) {
+  // Checkout the cart
+  const updatedCart = await fetch(`http://localhost:4000/cart/checkout/${userId}`, {
+    method: 'POST'
+  }).then(response => response.json());
+  // Alert the user that the cart has been checked out
+  alert('Cart checked out successfully!');
+  // Update the state of the cart
+  setCart(updatedCart);
+}
+
 function CartPage() {
   const { id } = useParams();
   const [cart, setCart] = useState(null);
   const [products, setProducts] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
   const { balance } = useContext(AppContext);
-  console.log(id);
 
   useEffect(() => {
     getCartByUserId(id).then(data => {
-      console.log(data);
       setCart(data);
+      setSubtotal(data.subtotal);
       if (Array.isArray(data.products)) {
         // data.products is an array of product IDs, so you can pass each ID directly to getProductById
         Promise.all(data.products.map(productId => getProductById(productId)))
@@ -71,8 +80,28 @@ function CartPage() {
     <div className="position-relative">
         <div className="card text-center ml-3">
           <div className="card-body">
-            <h5 className="card-title">Balance</h5>
-            <p className="card-text">£{balance}</p>
+            <h2 className="card-title">Subtotal - £{subtotal}</h2>
+            <h3 className="card-title">Balance</h3>
+            <h4 className="card-text">£{balance}</h4>
+            {subtotal > balance ? (
+              <OverlayTrigger
+                overlay={
+                  <Tooltip id="tooltip-disabled">
+                    Unable to checkout, insufficient funds!
+                  </Tooltip>
+                }
+              >
+                <span className="d-inline-block">
+                  <Button variant="danger" onClick={() => checkoutCart(id, setCart)} disabled={subtotal > balance}>
+                    Checkout
+                  </Button>
+                </span>
+              </OverlayTrigger>
+            ) : (
+              <Button variant="danger" onClick={() => checkoutCart(id, setCart)}>
+                Checkout
+              </Button>
+            )}
           </div>
         </div>
     <Link to="/" className="position-absolute top-0 start-0 p-3"><img src="/logo.png" alt="Logo" /></Link>

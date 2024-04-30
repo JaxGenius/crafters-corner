@@ -24,7 +24,7 @@ async function addToCart(userID, productId, isLoggedIn, setInCart) {
     throw new Error(`HTTP error! status: ${response.status}`);
   } else {
     alert('Product added to cart');
-    setInCart(true); // update inCart status
+    setInCart(true);
   }
 }
 
@@ -77,23 +77,27 @@ function ProductComponent({ product }) {
     }
   }, [isLoggedIn, userID, product._id]);
 
-  return (
-    <Card bg="light" style={{ width: '18rem' }}>
-      <Card.Img variant="top" src={"/" + product.imgSrc} alt={product.name} />
-      <Card.Body>
-        <Card.Title>{product.name}</Card.Title>
-        <Card.Text>
-          Price: {product.price}
-        </Card.Text>
-        {inCart ? (
+return (
+  <Card bg="light" style={{ width: '18rem' }}>
+    <Card.Img variant="top" src={"/" + product.imgSrc} alt={product.name} />
+    <Card.Body>
+      <Card.Title>{product.name}</Card.Title>
+      <Card.Text>
+        Price: £{product.price}
+      </Card.Text>
+      {product.sold ? (
+        <div style={{ backgroundColor: 'red', color: 'white', padding: '10px', textAlign: 'center' }}>SOLD</div>
+      ) : (
+        inCart ? (
           <Button variant="danger" onClick={() => removeFromCart(userID, product._id, setInCart)}>Remove from Cart</Button>
         ) : (
           <Button variant="primary" onClick={() => addToCart(userID, product._id, isLoggedIn, setInCart)}>Add to Cart</Button>
-        )}
-        <Button variant="secondary" onClick={() => navigate(`/product/${product._id}`)}>View Product</Button>
-      </Card.Body>
-    </Card>
-  );
+        )
+      )}
+      <Button variant="secondary" onClick={() => navigate(`/product/${product._id}`)}>View Product</Button>
+    </Card.Body>
+  </Card>
+);
 }
 
 ProductComponent.propTypes = {
@@ -102,6 +106,7 @@ ProductComponent.propTypes = {
     name: PropTypes.string.isRequired,
     imgSrc: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
+    sold: PropTypes.bool.isRequired,
   }).isRequired,
 };
 

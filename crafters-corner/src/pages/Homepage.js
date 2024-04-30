@@ -1,10 +1,13 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchComponent from '../components/SearchComponent';
 import { AppContext } from '../AppContext';
+import Modal from 'react-bootstrap/Modal';
+import WalletComponent from '../components/WalletComponent';
 
 function Homepage() {
   const { isLoggedIn, displayName, userID, setIsLoggedIn, setDisplayName, balance, setBalance } = useContext(AppContext);
+  const [showWallet, setShowWallet] = useState(false);
   const navigate = useNavigate();
 
   const fetchUserBalance = async (userId) => {
@@ -28,6 +31,9 @@ function Homepage() {
     navigate(`/cart/${userID}`);
   }
 
+  const handleOpenWallet = () => setShowWallet(true);
+  const handleCloseWallet = () => setShowWallet(false);
+
   useEffect(() => {
     if (isLoggedIn && userID) {
       fetchUserBalance(userID);
@@ -42,7 +48,15 @@ function Homepage() {
           {isLoggedIn && balance !== null && balance !== undefined && (
             <div className="card text-center ml-3">
               <div className="card-body">
-                <h5 className="card-title">Balance</h5>
+              <div className="card-title" onClick={handleOpenWallet} style={{cursor: 'pointer', color: '#007bff'}}>Balance</div>
+                <Modal show={showWallet} onHide={handleCloseWallet}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Wallet</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <WalletComponent />
+                  </Modal.Body>
+                </Modal>
                 <p className="card-text">£{balance}</p>
               </div>
             </div>
