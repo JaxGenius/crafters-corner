@@ -4,6 +4,7 @@ import SearchComponent from '../components/SearchComponent';
 import { AppContext } from '../AppContext';
 import Modal from 'react-bootstrap/Modal';
 import WalletComponent from '../components/WalletComponent';
+import CategoryComponent from '../components/CategoryComponent';
 
 function Homepage() {
   const { isLoggedIn, displayName, userID, setIsLoggedIn, setDisplayName, balance, setBalance } = useContext(AppContext);
@@ -82,13 +83,8 @@ function Homepage() {
         <SearchComponent />
       </div>
       <div className="mt-5"></div>
-      <h1>Categories</h1>
       <div className="mt-5"></div>
-      <div className="d-flex justify-content-between">
-        <div className="flex-grow-1 m-2 p-3 border">Furniture</div>
-        <div className="flex-grow-1 m-2 p-3 border">Jewelery</div>
-        <div className="flex-grow-1 m-2 p-3 border">Tools</div>
-      </div>
+        <div id="categories"><CategoryComponent/></div>
     </div>
   );
 }

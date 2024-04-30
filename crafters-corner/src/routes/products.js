@@ -45,6 +45,13 @@ router.get('/products/shopfront/:id', (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// Method to return unique categories
+router.get('/categories', (req, res) => {
+    Product.find().distinct('category')
+        .then(categories => res.json(categories))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 // SETTERS
 
 // Method to update product image by product id
