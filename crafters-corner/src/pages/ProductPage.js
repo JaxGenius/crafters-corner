@@ -152,6 +152,7 @@ function ProductPage() {
 
     if (response.ok) {
       setProduct((prevProduct) => ({ ...prevProduct, imgSrc: filename }));
+      alert('Image updated successfully!');
     } else {
       console.log('Image update failed');
     }
