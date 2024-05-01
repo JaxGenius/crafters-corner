@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import ProductComponent from '../components/ProductComponent';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -15,6 +15,7 @@ function SearchResults() {
     <Container>
       <Row>
         <Col>
+          <Link to="/"><img src="/logo.png" alt="Logo" /></Link>
           <div className="mt-5"></div>
           <h1>Search Results</h1>
           <div className="mt-5"></div>

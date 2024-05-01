@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Container, Row, Col, Modal, Button, Form } from 'react-bootstrap';
 import ProductComponent from '../components/ProductComponent';
 import { AppContext } from '../AppContext';
 
@@ -22,6 +20,24 @@ function ShopfrontPage() {
   const [shopfront, setShopfront] = useState(null);
   const [products, setProducts] = useState([]);
 
+  const [showModal, setShowModal] = useState(false);
+  const [editedDescription, setEditedDescription] = useState(null);
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleUpdate = async () => {
+    await fetch(`http://localhost:4000/shopfront/update/${userId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ description: editedDescription }),
+    });
+    alert('Description updated successfully');
+    getShopfrontByUserId(userId).then(data => {
+      setShopfront(data);
+      getProductsByShopfrontId(data._id).then(productsData => setProducts(productsData));
+    });  
+  };
+
   useEffect(() => {
     getShopfrontByUserId(userId).then(data => {
       setShopfront(data);
@@ -33,6 +49,10 @@ function ShopfrontPage() {
     return <div>Loading...</div>;
   }
 
+  const handleInputChange = (event) => {
+    setEditedDescription(event.target.value);
+  };
+
   return (
     <Container>
       <Link to="/"><img src="/logo.png" alt="Logo" /></Link>
@@ -40,6 +60,13 @@ function ShopfrontPage() {
         <Col>
           <h1>{shopfront.ownerName}'s Shopfront</h1>
           <h2>{shopfront.description}</h2>
+          {currentUser === userId && (
+          <>
+            <div className="mb-3"/>
+            <Button variant="primary" onClick={handleShowModal}>Edit Description</Button>
+            <div className="mb-3"/>
+          </>
+        )}
         </Col>
       </Row>
       <Row>
@@ -49,6 +76,28 @@ function ShopfrontPage() {
           </Col>
         ))}
       </Row>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Item</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="description">
+              <Form.Label>Description</Form.Label>
+              <Form.Control type="text" name="description" value={editedDescription || ''} onChange={handleInputChange} />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleUpdate}>
+            Update
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }
