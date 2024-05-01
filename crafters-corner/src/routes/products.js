@@ -82,6 +82,13 @@ router.post('/products/update/price/:id', (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// Method to update product category by product id
+router.post('/products/update/category/:id', (req, res) => {
+    Product.findByIdAndUpdate(req.params.id, { category: req.body.category })
+        .then(() => res.json('Product category updated!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 // Method to change sold status by product id
 router.post('/products/update/sold/:id', (req, res) => {
     Product.findByIdAndUpdate(req.params.id, { sold: req.body.sold })

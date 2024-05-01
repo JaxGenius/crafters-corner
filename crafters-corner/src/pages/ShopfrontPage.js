@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ProductComponent from '../components/ProductComponent';
+import { AppContext } from '../AppContext';
 
 async function getShopfrontByUserId(userId) {
     // Fetching shopfront data for a specific user
@@ -17,6 +18,7 @@ async function getProductsByShopfrontId(shopfrontId) {
 
 function ShopfrontPage() {
   const { userId } = useParams();
+  const { userID: currentUser } = useContext(AppContext); // use for checking if the current user is the owner of the shopfront
   const [shopfront, setShopfront] = useState(null);
   const [products, setProducts] = useState([]);
 
