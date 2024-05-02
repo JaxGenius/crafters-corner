@@ -84,8 +84,6 @@ function ProductPage() {
 
   const [showModal, setShowModal] = useState(false);
   const [editedProduct, setEditedProduct] = useState(null);
-  //const tagsArray = editedProduct.tags.split(',').map(tag => tag.trim());
-
 
   useEffect(() => {
     if (isLoggedIn && product) {
@@ -159,7 +157,7 @@ function ProductPage() {
   };
 
   if (!product || !editedProduct) {
-    return null; // or a loading spinner
+    return null;
   }
 
   return (
@@ -170,7 +168,7 @@ function ProductPage() {
       <Card.Body>
         <Card.Title className="display-4">{product.name}</Card.Title>
         <Card.Text>{product.description}</Card.Text>
-        <Card.Text className="font-weight-bold">${product.price}</Card.Text>
+        <Card.Text className="font-weight-bold">£{product.price}</Card.Text>
         {product.sold ? (
         <div style={{ backgroundColor: 'red', color: 'white', padding: '10px', textAlign: 'center' }}>SOLD</div>
       ) : (

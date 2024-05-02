@@ -25,6 +25,31 @@ function ShopfrontPage() {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
+  const handleShowAddProductModal = () => setShowAddProductModal(true);
+  const handleCloseAddProductModal = () => setShowAddProductModal(false);
+  const [newProduct, setNewProduct] = useState({ name: '', description: '', price: '', category: '', tags: '' });
+
+  const handleNewProductChange = (event) => {
+    setNewProduct({ ...newProduct, [event.target.name]: event.target.value });
+  };
+
+  const handleCreateProduct = async () => {
+    await fetch('http://localhost:4000/products/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        shopfrontID: shopfront._id,
+        owner: userId,
+        ...newProduct,
+      }),
+    });
+    alert('Product created successfully');
+    getProductsByShopfrontId(shopfront._id).then(productsData => setProducts(productsData));
+    handleCloseAddProductModal();
+    setNewProduct({ name: '', description: '', price: '', category: '', tags: '' });
+  };
+
   const handleUpdate = async () => {
     await fetch(`http://localhost:4000/shopfront/update/${userId}`, {
       method: 'POST',
@@ -35,7 +60,8 @@ function ShopfrontPage() {
     getShopfrontByUserId(userId).then(data => {
       setShopfront(data);
       getProductsByShopfrontId(data._id).then(productsData => setProducts(productsData));
-    });  
+    });
+    handleCloseModal();
   };
 
   useEffect(() => {
@@ -64,6 +90,8 @@ function ShopfrontPage() {
           <>
             <div className="mb-3"/>
             <Button variant="primary" onClick={handleShowModal}>Edit Description</Button>
+            <div className="mb-3"/>
+            <Button variant="primary" onClick={handleShowAddProductModal}>Add Product</Button>
             <div className="mb-3"/>
           </>
         )}
@@ -98,6 +126,45 @@ function ShopfrontPage() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Modal show={showAddProductModal} onHide={handleCloseAddProductModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Product</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="productName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control type="text" name="name" value={newProduct.name} onChange={handleNewProductChange} />
+            </Form.Group>
+            <Form.Group controlId="productDescription">
+              <Form.Label>Description</Form.Label>
+              <Form.Control type="text" name="description" value={newProduct.description} onChange={handleNewProductChange} />
+            </Form.Group>
+            <Form.Group controlId="productPrice">
+              <Form.Label>Price (£)</Form.Label>
+              <Form.Control type="text" name="price" value={newProduct.price} onChange={handleNewProductChange} />
+            </Form.Group>
+            <Form.Group controlId="productCategory">
+              <Form.Label>Category</Form.Label>
+              <Form.Control type="text" name="category" value={newProduct.category} onChange={handleNewProductChange} />
+            </Form.Group>
+            <Form.Group controlId="productTags">
+              <Form.Label>Tags</Form.Label>
+              <Form.Control type="text" name="tags" value={newProduct.tags} onChange={handleNewProductChange} />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseAddProductModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleCreateProduct}>
+            Create
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </Container>
   );
 }
