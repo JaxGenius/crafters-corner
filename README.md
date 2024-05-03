@@ -2,7 +2,7 @@
 
 # Docker setup
 
-Install Docker and run the following:
+Install Docker and run the following in the same directory as compose.yaml:
 
 docker compose up --build
 
