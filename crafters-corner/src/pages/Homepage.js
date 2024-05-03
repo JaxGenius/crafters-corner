@@ -49,7 +49,7 @@ function Homepage() {
           {isLoggedIn && balance !== null && balance !== undefined && (
             <div className="card text-center ml-3">
               <div className="card-body">
-              <div className="card-title" onClick={handleOpenWallet} style={{cursor: 'pointer', color: '#007bff'}}>Balance</div>
+                <div className="card-title" onClick={handleOpenWallet} style={{cursor: 'pointer', color: '#007bff'}}>Balance</div>
                 <Modal show={showWallet} onHide={handleCloseWallet}>
                   <Modal.Header closeButton>
                     <Modal.Title>Wallet</Modal.Title>
@@ -79,12 +79,15 @@ function Homepage() {
           )}
         </nav>
       </header>
+      <div className="developer-description">
+        <p>Welcome to Crafters Corner, the ultimate destination for creative minds and crafting enthusiasts! Our website is designed to inspire your artistic projects with our extensive range of crafting supplies, unique handmade items, and a treasure trove of DIY kits. Whether you're a beginner or a seasoned crafter, Crafters Corner offers everything you need to bring your visions to life..</p>
+      </div>
       <div id="search">
         <SearchComponent />
       </div>
       <div className="mt-5"></div>
       <div className="mt-5"></div>
-        <div id="categories"><CategoryComponent/></div>
+      <div id="categories"><CategoryComponent/></div>
     </div>
   );
 }
